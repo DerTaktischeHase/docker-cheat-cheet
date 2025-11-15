@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/docker-cheat-cheet-real.iml" filepath="$PROJECT_DIR$/.idea/docker-cheat-cheet-real.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/docker-cheat-cheet.iml" filepath="$PROJECT_DIR$/.idea/docker-cheat-cheet.iml" />
     </modules>
   </component>
 </project>
