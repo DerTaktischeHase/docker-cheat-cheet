@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Docker - Cheat Cheet - CLI Commands</title>
+  <meta name="description" content="">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:alt" content="">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fafafa">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+</head>
+
+<body>
+
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-card: #ffffff;
+      --border: #d0d0d7;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --code-bg: #111827;
+      --code-text: #f9fafb;
+      --tag-bg: #fee2e2;
+      --tag-text: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+      padding: 2.5rem 2.5rem 2rem;
+      border: 1px solid var(--border);
+    }
+
+    h1, h2, h3, h4 {
+      margin-top: 0;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    h1 span.icon {
+      font-size: 2.2rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 0.98rem;
+    }
+
+    .tagline {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.7rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 1rem 1.2rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 650;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .section-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 0.7rem 0.9rem;
+      border-radius: 9px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+      font-size: 0.86rem;
+      margin: 0.45rem 0;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    .inline-code {
+      background: #11182710;
+      border-radius: 4px;
+      padding: 0.05rem 0.25rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9em;
+    }
+
+    .highlight {
+      background: #fef3c7;
+      border-radius: 6px;
+      padding: 0.15rem 0.35rem;
+      font-size: 0.8rem;
+      border: 1px solid #fde68a;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+
+    .warning {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      border-radius: 8px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag-box {
+      background: var(--tag-bg);
+      border-radius: 8px;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.8rem;
+      color: var(--tag-text);
+      border: 1px solid #fecaca;
+      margin: 0.4rem 0 0.5rem;
+    }
+
+    .tag-box strong {
+      font-weight: 700;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin: 0.3rem 0 0.6rem;
+    }
+
+    li {
+      font-size: 0.88rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .mini-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    hr.soft {
+      border: none;
+      border-top: 1px dashed #e5e7eb;
+      margin: 0.6rem 0;
+    }
+
+    .arrow-explain {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .arrow-explain span {
+      display: inline-block;
+      margin-right: 0.7rem;
+      white-space: nowrap;
+    }
+
+    footer {
+      margin-top: 1.4rem;
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        padding: 1.5cm;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<div class="page">
+  <div class="tagline">Docker CLI – Schnellhilfe</div>
+  <h1><span class="icon">🐳</span> Docker Cheat Sheet</h1>
+  <div class="subtitle">
+    Kompakte Referenz für <strong>Images</strong>, <strong>Container</strong> und
+    <strong>Ports</strong> – ideal zum Ausdrucken.
+  </div>
+
+  <div class="grid">
+    <!-- 1. Basics -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">1. Docker Basics</div>
+          <div class="card-subtitle">Version, Info & Service Kontrolle</div>
+        </div>
+        <span class="badge">Basics</span>
+      </div>
+
+      <div class="mini-title">Version & Infos</div>
+      <pre><code class="language-bash">docker version               # Versionen von Client & Server anzeigen
+docker info                  # Details zur Docker-Engine anzeigen</code></pre>
+
+      <div class="mini-title">Dienst starten/stoppen (Linux, systemd)</div>
+      <pre><code class="language-bash">sudo systemctl start docker     # Docker-Dienst starten
+sudo systemctl stop docker      # Docker-Dienst stoppen
+sudo systemctl restart docker   # Docker-Dienst neu starten</code></pre>
+    </div>
+
+    <!-- 2. Images + Tag Erklärung -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">2. Images & Tags</div>
+          <div class="card-subtitle">Image-Verwaltung & Versionsprinzip</div>
+        </div>
+        <span class="badge">Images</span>
+      </div>
+
+      <div class="mini-title">Images anzeigen & löschen</div>
+      <pre><code class="language-bash">docker images                # Alle vorhandenen Images listen
+docker rmi &lt;image&gt;             # Image löschen</code></pre>
+
+      <div class="mini-title">Was ist ein <span class="inline-code">Tag</span>?</div>
+      <div class="tag-box">
+        Ein <strong>Tag</strong> ist eine <strong>Version</strong> eines Images.<br>
+        Beispiel: <span class="inline-code">node:20</span><br>
+        → <strong>node</strong> = Name des Images<br>
+        → <strong>20</strong> = Tag = Version (z.&nbsp;B. Node.js 20)<br><br>
+        Wenn du keinen Tag angibst, verwendet Docker automatisch
+        <span class="inline-code">:latest</span>.
+      </div>
+
+      <div class="mini-title">Eigenes Image mit Tag bauen</div>
+      <pre><code class="language-bash">docker build -t meinprojekt:1.0 .
+# -t = &lt;name&gt;:&lt;tag&gt; (z.B. meinprojekt:1.0)</code></pre>
+    </div>
+
+    <!-- 3. Image Build -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">3. Images bauen („build“)</div>
+          <div class="card-subtitle">Aus Dockerfile → lauffähiges Image</div>
+        </div>
+        <span class="badge">Build</span>
+      </div>
+
+      <div class="section-note">
+        Im Projektordner mit <span class="inline-code">Dockerfile</span> ausführen:
+      </div>
+      <pre><code class="language-bash">docker build -t meinserver:latest .
+# -t   = Name + Tag (hier: meinserver:latest)
+# .    = aktuelles Verzeichnis (enthält Dockerfile)</code></pre>
+
+      <div class="warning">
+        Nach Code-Änderungen (z.&nbsp;B. <span class="inline-code">index.js</span>):<br>
+        Image <strong>neu bauen</strong>, sonst läuft der Container mit alter Version!
+      </div>
+    </div>
+
+    <!-- 4. Container starten -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">4. Container erstellen & starten</div>
+          <div class="card-subtitle">Name, Ports & Image richtig setzen</div>
+        </div>
+        <span class="badge">Run</span>
+      </div>
+
+      <div class="mini-title">Container starten (Standardfall)</div>
+      <pre><code class="language-bash">docker run -d --name myserver -p 1000:3000 meinserver:latest
+# -d           = im Hintergrund starten (detached)
+# --name       = eindeutiger Container-Name (darf NICHT doppelt sein)
+# -p 1000:3000 = Port-Mapping (HOST:CONTAINER)
+# meinserver:latest = Image + Tag</code></pre>
+
+      <div class="mini-title">Port-Mapping richtig verstehen</div>
+      <pre><code class="language-bash">-p HOSTPORT:CONTAINERPORT</code></pre>
+      <div class="arrow-explain">
+        <span><strong>HOSTPORT</strong> → Port auf deinem Rechner (Browser: <span class="inline-code">localhost:1000</span>)</span>
+        <span><strong>CONTAINERPORT</strong> → Port <em>im Container</em> (z.&nbsp;B. Node.js läuft auf 3000)</span>
+      </div>
+      <div class="highlight">
+        Wenn dein Node.js-Server im Container auf Port <strong>3000</strong> läuft,<br>
+        muss der rechte Port im Mapping <strong>3000</strong> sein.
+      </div>
+
+      <div class="warning">
+        Container-Name (<span class="inline-code">--name</span>) muss <strong>einzigartig</strong> sein.<br>
+        Wenn Docker meldet <span class="inline-code">name already in use</span>, erst:
+        <span class="inline-code">docker rm &lt;name&gt;</span> oder anderen Namen verwenden.
+      </div>
+    </div>
+
+    <!-- 5. Container verwalten -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">5. Container verwalten</div>
+          <div class="card-subtitle">Anzeige, Logs, Start/Stop</div>
+        </div>
+        <span class="badge">Manage</span>
+      </div>
+
+      <div class="mini-title">Container anzeigen</div>
+      <pre><code class="language-bash">docker ps                      # nur laufende Container
+docker ps -a                   # alle Container (auch gestoppte)</code></pre>
+
+      <div class="mini-title">Logs ansehen</div>
+      <pre><code class="language-bash">docker logs -f myserver        # Logs des Containers live verfolgen</code></pre>
+
+      <div class="mini-title">Start / Stop / Restart</div>
+      <pre><code class="language-bash">docker stop myserver           # Container stoppen
+docker start myserver          # Container starten
+docker restart myserver        # Container neu starten</code></pre>
+
+      <div class="mini-title">Container löschen</div>
+      <pre><code class="language-bash">docker rm myserver             # Container löschen</code></pre>
+    </div>
+
+    <!-- 6. Neu bauen nach Code-Änderung -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">6. Nach Code-Änderungen (Neu-Build)</div>
+          <div class="card-subtitle">Wenn sich z.&nbsp;B. index.js geändert hat</div>
+        </div>
+        <span class="badge">Rebuild</span>
+      </div>
+
+      <div class="section-note">
+        Typischer Ablauf nach Änderungen im Code:
+      </div>
+      <pre><code class="language-bash">docker stop myserver                    # 1. Container stoppen
+docker rm myserver                      # 2. Container löschen
+docker build -t meinserver:latest .     # 3. Image neu bauen
+docker run -d --name myserver \         # 4. Container neu starten
+  -p 1000:3000 meinserver:latest</code></pre>
+    </div>
+
+    <!-- 7. Dev-Mode / Volumes -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">7. Dev-Mode mit Volumes</div>
+          <div class="card-subtitle">Code direkt vom Host nutzen</div>
+        </div>
+        <span class="badge">Dev</span>
+      </div>
+
+      <div class="section-note">
+        Container für Entwicklung, der dein aktuelles Verzeichnis einbindet:
+      </div>
+      <pre><code class="language-bash">docker run -d \
+  --name myserver-dev \
+  -p 1000:3000 \
+  -v "$(pwd)":/app \
+  -w /app \
+  node:20 \
+  node index.js</code></pre>
+
+      <ul>
+        <li><span class="inline-code">-v "$(pwd)":/app</span> → host-Verzeichnis ins Container-Verzeichnis <span class="inline-code">/app</span> mounten</li>
+        <li><span class="inline-code">-w /app</span> → Arbeitsverzeichnis im Container ist <span class="inline-code">/app</span></li>
+        <li>Änderungen an Dateien auf dem Host sind sofort im Container sichtbar</li>
+      </ul>
+    </div>
+
+    <!-- 8. Aufräumen -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">8. Aufräumen</div>
+          <div class="card-subtitle">Ungenutztes löschen</div>
+        </div>
+        <span class="badge">Cleanup</span>
+      </div>
+
+      <div class="mini-title">Gestoppte Container löschen</div>
+      <pre><code class="language-bash">docker container prune         # alle gestoppten Container löschen</code></pre>
+
+      <div class="mini-title">Ungelesene/ungenutzte Images löschen</div>
+      <pre><code class="language-bash">docker image prune             # ungenutzte Images löschen
+docker image prune -a          # ALLE nicht verwendeten Images löschen</code></pre>
+    </div>
+
+    <!-- 9. Full Process -->
+    <div class="card full-width">
+      <div class="card-header">
+        <div>
+          <div class="card-title">9. Full Process: Node.js-Container erstellen & verwalten</div>
+          <div class="card-subtitle">Von Dockerfile bis „läuft im Browser“</div>
+        </div>
+        <span class="badge">Workflow</span>
+      </div>
+
+      <div class="mini-title">1. Dockerfile (Beispiel Node.js)</div>
+      <pre><code class="language-bash">FROM node:20
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["node", "index.js"]</code></pre>
+
+      <div class="mini-title">2. Image bauen</div>
+      <pre><code class="language-bash">docker build -t meinserver:latest .
+# erzeugt das Image "meinserver:latest"</code></pre>
+
+      <div class="mini-title">3. Container starten</div>
+      <pre><code class="language-bash">docker run -d --name meinserver -p 1000:3000 meinserver:latest
+# im Browser: http://localhost:1000</code></pre>
+
+      <div class="mini-title">4. Logs kontrollieren</div>
+      <pre><code class="language-bash">docker logs -f meinserver</code></pre>
+
+      <div class="mini-title">5. Container neu starten / stoppen / löschen</div>
+      <pre><code class="language-bash">docker restart meinserver      # neu starten
+docker stop meinserver         # stoppen
+docker rm meinserver           # löschen (wenn gestoppt)</code></pre>
+    </div>
+  </div>
+
+  <footer>
+    Docker Schnellhilfe · Stand: eigenes Setup (CLI & Docker Desktop)
+  </footer>
+</div>
+
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
