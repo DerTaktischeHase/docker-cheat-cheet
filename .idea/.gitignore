@@ -7,8 +7,7 @@
 /dataSources/
 /dataSources.local.xml
 
-
-workspace.xml
-vcs.xml
-modules.xml
-jsLibraryMappings.xml
+/inspectionProfiles
+/vcs.xml
+/modules.xml
+/jsLibraryMappings.xml
